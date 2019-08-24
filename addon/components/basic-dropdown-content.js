@@ -115,12 +115,12 @@ export default class BasicDropdownContent extends Component {
     let triggerElement = document.querySelector(`[data-ebd-id=${this.dropdown.uniqueId}-trigger]`);
     this.handleRootMouseDown = (e) => {
       if (this.hasMoved || dropdownElement.contains(e.target) || triggerElement && triggerElement.contains(e.target)) {
-        this.hasMoved = false;
+        this.set('hasMoved', false);
         return;
       }
 
       if (dropdownIsValidParent(e.target, this.dropdownId)) {
-        this.hasMoved = false;
+        this.set('hasMoved', false);
         return;
       }
 
@@ -135,7 +135,7 @@ export default class BasicDropdownContent extends Component {
       document.addEventListener('touchend', this.handleRootMouseDown, true);
     }
 
-    this.scrollableAncestors = this.getScrollableAncestors(triggerElement);
+    this.set('scrollableAncestors', this.getScrollableAncestors(triggerElement));
     this.addScrollHandling(dropdownElement);
   }
 
@@ -171,7 +171,7 @@ export default class BasicDropdownContent extends Component {
     clone.classList.add(...this.transitioningOutClass.split(' '));
     parentElement.appendChild(clone);
     this.set('animationClass', this.transitioningInClass);
-    waitForAnimations(clone, function () {
+    waitForAnimations(clone, function() {
       parentElement.removeChild(clone);
     });
   }
@@ -279,7 +279,7 @@ export default class BasicDropdownContent extends Component {
 
   // Assigned at runtime to ensure that changes to the `preventScroll` property
   // don't result in not cleaning up after ourselves.
-  removeScrollHandling() {}
+  removeScrollHandling() { }
 
   // These two functions wire up scroll handling if `preventScroll` is false.
   // These trigger reposition of the dropdown.
